@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">NotificationLogger</string>
+    <string name="app_name">Notification Logger</string>
+    <string name="service_name">Notification Listener</string>
+    <string name="notification_channel_name">Removed MSG notifications</string>
+    <string name="notification_channel_desc">Channel of notifications of category "msg" that disappear</string>
+    <string name="open_settings_explanation">Configure in Settings of "Notification Listener" for allow app to start listening Notifications.</string>
+    <string name="open_settings">Open Settings</string>
 </resources>
