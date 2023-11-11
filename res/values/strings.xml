@@ -1,8 +1,22 @@
 <resources>
-    <string name="app_name">Notification Logger</string>
+    <string name="app_name">Notifs</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="open_setting">Open Setting</string>
+    <string name="apply">Apply</string>
+    <string name="clear">Clear</string>
+
     <string name="service_name">Notification Listener</string>
     <string name="notification_channel_name">Removed MSG notifications</string>
     <string name="notification_channel_desc">Channel of notifications of category "msg" that disappear</string>
-    <string name="open_settings_explanation">Configure in Settings of "Notification Listener" for allow app to start listening Notifications.</string>
-    <string name="open_settings">Open Settings</string>
+
+    <string name="setting_listener">Notifications listener setting</string>
+    <string name="setting_listener_desc">App needs access to read your notifications to work.\nYou must give it from settings.</string>
+    <string name="delete_all">Delete All</string>
+    <string name="delete_all_desc">Are you sure you want delete all the records of notifications?\nThese action is permanent.</string>
+    <string name="refresh">Refresh</string>
+    <string name="refreshed">Refreshed</string>
+    <string name="filter">Filter</string>
+    <string name="filter_app">Filter by application</string>
+    <string name="total_notifications">Total notifications</string>
 </resources>
