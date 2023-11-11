@@ -1,5 +1,6 @@
 package emedp.notificationlogger.database;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         this.notifications = notifications;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void refresh (List<Notification> newList) {
+        notifications.clear();
+        notifications.addAll(newList);
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public NotificationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -38,7 +46,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     public static class NotificationViewHolder extends RecyclerView.ViewHolder {
-
         private final TextView tv_app;
         private final TextView tv_time;
         private final TextView tv_channel;
