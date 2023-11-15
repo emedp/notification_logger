@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Notifs</string>
+    <string name="app_name">Notilog</string>
     <string name="service_name">Notifs Notification Listener Service</string>
     <!-- call actions -->
     <string name="cancel">Cancel</string>
