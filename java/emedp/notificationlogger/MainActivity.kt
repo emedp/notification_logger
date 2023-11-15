@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.ArrayMap
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
@@ -107,7 +108,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun filterUI () {
-        val items = listApps.toTypedArray()
+        val appsMap = ArrayMap<String, String>()
+        val packageManager = applicationContext.packageManager
+
+        try {
+            val applications = packageManager.getInstalledApplications(0)
+            Log.d("APPS",applications.toString())
+
+            listApps.forEach {
+                val appInfo = packageManager.getApplicationInfo(it, 0)
+                val label = packageManager.getApplicationLabel(appInfo)
+                Log.d("APP_PACKAGE", it)
+                Log.d("LABEL", label.toString())
+
+                appsMap[it] = label.toString()
+            }
+        } finally {
+            Log.d("APPS_MAP", appsMap.toString())
+        }
+
+        val items = appsMap.values.toTypedArray()
         var itemChecked = 0
 
         MaterialAlertDialogBuilder(this)
@@ -118,7 +138,8 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton(getString(R.string.apply)) { _, _ ->
                 Log.d("ITEM_CHECKED", itemChecked.toString())
                 if (notificationAdapter.itemCount != 0) {
-                    notificationAdapter.refresh(dao.selectNotificationsWhereAppName(items[itemChecked]))
+                    val appPackage: String = appsMap.keys.toTypedArray()[appsMap.indexOfValue(items[itemChecked])]
+                    notificationAdapter.refresh(dao.selectNotificationsWhereAppName(appPackage))
                     tvTotal.text = notificationAdapter.itemCount.toString()
                 }
             }
