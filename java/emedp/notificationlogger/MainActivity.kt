@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -113,7 +114,7 @@ class MainActivity : AppCompatActivity() {
             .setTitle(getString(R.string.filter_app))
             .setSingleChoiceItems(items, itemChecked) { _, which -> itemChecked = which }
             .setNeutralButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
-            .setNegativeButton(getString(R.string.clear)) { _, _ -> notificationAdapter.refresh(dao.allNotifications) }
+            .setNegativeButton(getString(R.string.clear)) { _, _ -> refreshUI() }
             .setPositiveButton(getString(R.string.apply)) { _, _ ->
                 notificationAdapter.refresh(dao.selectNotificationsWhereAppName(items[itemChecked]))
                 tvTotal.text = notificationAdapter.itemCount.toString()
