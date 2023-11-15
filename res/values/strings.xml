@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Notifs</string>
 
+    <string name="category">Category</string>
+    <string name="channel">Channel</string>
+
     <string name="cancel">Cancel</string>
     <string name="open_setting">Open Setting</string>
     <string name="apply">Apply</string>
