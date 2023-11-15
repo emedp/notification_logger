@@ -138,7 +138,10 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton(getString(R.string.apply)) { _, _ ->
                 Log.d("ITEM_CHECKED", itemChecked.toString())
                 if (notificationAdapter.itemCount != 0) {
-                    val appPackage: String = appsMap.keys.toTypedArray()[appsMap.indexOfValue(items[itemChecked])]
+                    val itemSelected: String = items[itemChecked]
+                    val appPackage: String = appsMap.keys.toTypedArray()[itemChecked]
+                    Log.d("SELECTED_APP_NAME", itemSelected)
+                    Log.d("SELECTED_APP_PACKAGE", appPackage)
                     notificationAdapter.refresh(dao.selectNotificationsWhereAppName(appPackage))
                     tvTotal.text = notificationAdapter.itemCount.toString()
                 }
