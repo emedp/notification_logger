@@ -116,8 +116,11 @@ class MainActivity : AppCompatActivity() {
             .setNeutralButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
             .setNegativeButton(getString(R.string.clear)) { _, _ -> refreshUI() }
             .setPositiveButton(getString(R.string.apply)) { _, _ ->
-                notificationAdapter.refresh(dao.selectNotificationsWhereAppName(items[itemChecked]))
-                tvTotal.text = notificationAdapter.itemCount.toString()
+                Log.d("ITEM_CHECKED", itemChecked.toString())
+                if (notificationAdapter.itemCount != 0) {
+                    notificationAdapter.refresh(dao.selectNotificationsWhereAppName(items[itemChecked]))
+                    tvTotal.text = notificationAdapter.itemCount.toString()
+                }
             }
             .show()
     }
