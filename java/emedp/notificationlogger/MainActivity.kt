@@ -56,9 +56,9 @@ class MainActivity : AppCompatActivity() {
         requestAppPermissions()
 
         val firstTime = false
-        // TODO: si es la primera vez que se abre la app: (Comprobar con SharedPreferences) enseñar instrucciones
-        if (firstTime)
-            openNotificationListenerSettings()
+        if (firstTime) {
+            // TODO: si es la primera vez que se abre la app: (Comprobar con SharedPreferences) enseñar instrucciones
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -68,21 +68,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle item selection
         return when (item.itemId) {
             R.id.menu_delete_all -> {
                 alertDialogDelete()
                 true
             }
             R.id.menu_open_setting -> {
-                // TODO: abrir una nueva ventana que contenga todas las opciones necesarias para la escucha activa de notificaciones:
-                /*
-                TODO: ver como hace Mi Fit para ver lista de aplicaciones instaladas
-                - abrir ajuste de notification listener
-                - ahorro de energia
-                
-                 */
-                openNotificationListenerSettings()
+                startActivity(Intent(this, SettingsActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -95,16 +87,6 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.POST_NOTIFICATIONS
             ), 1)
         }
-    }
-
-    private fun openNotificationListenerSettings () {
-        // TODO: cambiar para que no sea un AlertDialog si no que todo esto se vea desde una pantalla
-        MaterialAlertDialogBuilder(this)
-            .setTitle(getString(R.string.setting_listener))
-            .setMessage(getString(R.string.setting_listener_desc))
-            .setNeutralButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
-            .setPositiveButton(getString(R.string.open_setting)) { _, _ -> startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS")) }
-            .show()
     }
 
     private fun filterUI () {

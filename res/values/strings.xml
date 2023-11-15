@@ -1,20 +1,14 @@
 <resources>
     <string name="app_name">Notifs</string>
-
-    <string name="category">Category</string>
-    <string name="channel">Channel</string>
-
+    <string name="service_name">Notifs Notification Listener Service</string>
+    <!-- call actions -->
     <string name="cancel">Cancel</string>
-    <string name="open_setting">Open Setting</string>
     <string name="apply">Apply</string>
     <string name="clear">Clear</string>
-
-    <string name="service_name">Notification Listener</string>
-    <string name="notification_channel_name">Removed MSG notifications</string>
-    <string name="notification_channel_desc">Channel of notifications of category "msg" that disappear</string>
-
-    <string name="setting_listener">Notifications listener setting</string>
-    <string name="setting_listener_desc">App needs access to read your notifications to work.\nYou must give it from settings.</string>
+    <!-- titles -->
+    <string name="category">Category</string>
+    <string name="channel">Channel</string>
+    <!-- main activity -->
     <string name="delete_all">Delete All</string>
     <string name="delete_all_desc">Are you sure you want delete all the records of notifications?\nThese action is permanent.</string>
     <string name="refresh">Refresh</string>
@@ -22,4 +16,21 @@
     <string name="filter">Filter</string>
     <string name="filter_app">Filter by application</string>
     <string name="total_notifications">Total notifications</string>
+    <!-- Preferences -->
+    <string name="title_activity_settings">Settings</string>
+    <string name="settings_explanation">Check that the following settings are granted so that the app can function normally as expected.</string>
+    <string name="setting_lock_app">Lock application</string>
+    <string name="setting_desc_lock_app">If you can, it is recommended that you pin the application to the recent screen for avoid close app accidentally.</string>
+    <string name="setting_notification_listener">Notification Listener</string>
+    <string name="setting_desc_notification_listener">For app works, it needs permission to read your notifications.</string>
+    <string name="open_setting_notification_listener">Open Notification Listener Setting</string>
+    <string name="setting_battery_optimization">Battery Optimization</string>
+    <string name="setting_desc_battery_optimization">For the app to be able to listen continuously and prevent from turning off. Get application the most privilege option in battery optimization setting.</string>
+    <string name="open_setting_battery_optimization">Open Battery Optimization Setting</string>
+    <string name="setting_autostart">Autostart on background</string>
+    <string name="setting_desc_autostart">Open your settings, search for the autostart option and add this app to the whitelist.</string>
+    <string name="open_settings">Open Settings</string>
+    <string name="setting_app_settings_details">Application Details Settings</string>
+    <string name="setting_desc_app_settings_details">Check in your application details settings if you can grant special privileges for the app can work in background.</string>
+    <string name="open_setting_app_details">Open App Settings Details</string>
 </resources>

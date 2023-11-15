@@ -16,5 +16,5 @@
         android:icon="@drawable/baseline_settings_24"
         app:iconTint="@color/white"
         app:showAsAction="ifRoom"
-        android:title="@string/open_setting" />
+        android:title="@string/title_activity_settings" />
 </menu>
