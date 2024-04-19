@@ -4,7 +4,7 @@ import android.content.Context;
 
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-@androidx.room.Database(entities = {Notification.class}, exportSchema = false, version = 1)
+@androidx.room.Database(entities = {MyNotification.class}, exportSchema = false, version = 1)
 public abstract class Database extends RoomDatabase {
 
     private static Database instance;

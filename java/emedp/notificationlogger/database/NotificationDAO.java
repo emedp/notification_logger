@@ -10,23 +10,20 @@ public interface NotificationDAO {
 
     // CRUD
     @Insert
-    void insertNotification(Notification notification);
+    void insertNotification(MyNotification notification);
 
-    @Query("DELETE FROM notifications")
+    @Query("DELETE FROM Notifications")
     void deleteNotificationsTable();
 
-    @Query("SELECT * FROM notifications ORDER BY id DESC")
-    List<Notification> getAllNotifications();
+    @Query("SELECT * FROM Notifications ORDER BY id DESC")
+    List<MyNotification> getAllNotifications();
 
     // WHERES
-    @Query("SELECT * FROM notifications WHERE appName = (:appName) ORDER BY id DESC")
-    List<Notification> selectNotificationsWhereAppName(String appName);
+    @Query("SELECT * FROM Notifications WHERE appName = (:appName) ORDER BY id DESC")
+    List<MyNotification> selectNotificationsWhereAppName(String appName);
 
     // DISTINCT FIELDS
-    @Query("SELECT DISTINCT appName FROM notifications ORDER BY appName")
+    @Query("SELECT DISTINCT appName FROM Notifications ORDER BY appName")
     List<String> selectAppPackagesFromNotifications();
-
-    @Query("SELECT DISTINCT category FROM notifications ORDER BY category")
-    List<String> selectCategoriesFromNotifications();
 
 }

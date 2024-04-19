@@ -15,14 +15,14 @@ import emedp.notificationlogger.R;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder> {
 
-    private List<Notification> notifications;
+    private List<MyNotification> notifications;
 
-    public NotificationAdapter(List<Notification> notifications) {
+    public NotificationAdapter(List<MyNotification> notifications) {
         this.notifications = notifications;
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void refresh (List<Notification> newList) {
+    public void refresh (List<MyNotification> newList) {
         notifications.clear();
         notifications.addAll(newList);
         notifyDataSetChanged();
@@ -68,7 +68,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             tv_text = itemView.findViewById(R.id.tv_text);
         }
 
-        void bindHolder (Notification notification) {
+        void bindHolder (MyNotification notification) {
             tv_app.setText(notification.getAppName());
             tv_time.setText(notification.getTime());
             tv_channel.setText(notification.getChannel());

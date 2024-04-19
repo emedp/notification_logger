@@ -5,13 +5,13 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "Notifications")
-public class Notification {
+public class MyNotification {
     @PrimaryKey(autoGenerate = true)
     private int id;
     @ColumnInfo()
     private String appName;
     @ColumnInfo()
-    private String time;
+    private String time; // TODO: change to long or timestamp
     @ColumnInfo()
     private String channel;
     @ColumnInfo()
@@ -21,7 +21,7 @@ public class Notification {
     @ColumnInfo()
     private String text;
 
-    public Notification(String appName, String time, String channel, String category, String title, String text) {
+    public MyNotification(String appName, String time, String channel, String category, String title, String text) {
         this.appName = appName;
         this.time = time;
         this.channel = channel;

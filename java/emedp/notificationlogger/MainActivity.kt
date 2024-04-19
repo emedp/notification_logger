@@ -23,7 +23,6 @@ import emedp.notificationlogger.database.NotificationDAO
 class MainActivity : AppCompatActivity() {
     private lateinit var dao: NotificationDAO
     private lateinit var listApps: List<String>
-    private lateinit var listCategories: List<String>
     private lateinit var notificationAdapter: NotificationAdapter
     private lateinit var tvTotal: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,10 +54,7 @@ class MainActivity : AppCompatActivity() {
         refreshUI()
         requestAppPermissions()
 
-        val firstTime = false
-        if (firstTime) {
-            // TODO: si es la primera vez que se abre la app: (Comprobar con SharedPreferences) enseñar instrucciones
-        }
+        // TODO: launch tutorial when its the first time app opened
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -136,7 +132,6 @@ class MainActivity : AppCompatActivity() {
         tvTotal.text = notificationAdapter.itemCount.toString()
 
         listApps = dao.selectAppPackagesFromNotifications()
-        listCategories = dao.selectCategoriesFromNotifications()
     }
 
     private fun clearUI () {

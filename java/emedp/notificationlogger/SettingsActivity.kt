@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class SettingsActivity : AppCompatActivity() {
 
-    // TODO: opción para seleccionar que apps escuchar o escuchar todas
+    // TODO: new setting to see a list of installed apps to select who listen or listen all by default
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
