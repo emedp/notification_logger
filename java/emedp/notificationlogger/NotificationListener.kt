@@ -12,8 +12,7 @@ import java.util.Locale
 
 class NotificationListener : NotificationListenerService() {
 
-    private val appDatabase = Database.getInstance(baseContext)
-    // TODO: solve bug 2 instances of this class are created sometimes, looks like context is the problem
+    private lateinit var appDatabase: Database
 
     /**
      * Implement this method to learn about when the listener is enabled and connected to
@@ -25,6 +24,8 @@ class NotificationListener : NotificationListenerService() {
         Log.d("NOTIFICATION_LISTENER","CONNECTED")
         val toastMessage = getString(R.string.service_name) + ": " + getString(R.string.connected)
         Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show()
+
+        appDatabase = Database.getInstance(baseContext)
     }
 
     /**
