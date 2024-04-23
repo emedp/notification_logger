@@ -1,10 +1,15 @@
 package emedp.notificationlogger
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
 import emedp.notificationlogger.database.Database
 import emedp.notificationlogger.database.MyNotification
 import java.util.Date
@@ -13,6 +18,9 @@ import java.util.Locale
 class NotificationListener : NotificationListenerService() {
 
     private lateinit var appDatabase: Database
+    private lateinit var notificationManager: NotificationManager
+    private val notificationChannelID = "CHANNEL_ID_NOTILOG"
+    private var notificationID = 0
 
     /**
      * Implement this method to learn about when the listener is enabled and connected to
@@ -22,10 +30,10 @@ class NotificationListener : NotificationListenerService() {
     override fun onListenerConnected() {
         super.onListenerConnected()
         Log.d("NOTIFICATION_LISTENER","CONNECTED")
-        val toastMessage = getString(R.string.service_name) + ": " + getString(R.string.connected)
-        Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.connected), Toast.LENGTH_SHORT).show()
 
         appDatabase = Database.getInstance(baseContext)
+        createNotificationChannel()
     }
 
     /**
@@ -36,8 +44,8 @@ class NotificationListener : NotificationListenerService() {
     override fun onListenerDisconnected() {
         super.onListenerDisconnected()
         Log.d("NOTIFICATION_LISTENER","DISCONNECTED")
-        val toastMessage = getString(R.string.service_name) + ": " + getString(R.string.disconnected)
-        Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.disconnected), Toast.LENGTH_SHORT).show()
+        // TODO requestRebind()
     }
 
     override fun onDestroy() {
@@ -55,11 +63,20 @@ class NotificationListener : NotificationListenerService() {
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         super.onNotificationPosted(sbn)
         Log.d("NOTIFICATION_LISTENER", "NOTIFICATION POSTED")
-        if (sbn != null)
-            recordStatusBarNotification(sbn)
+        if (sbn != null) {
+            val notification = analyzeNotification(sbn)
+
+            if (notification.appName != "emedpware.notificationlogger") {
+                // Insert into DB
+                appDatabase.notificationDAO().insertNotification(notification)
+            }
+        }
     }
 
     /**
+     * Implement this method to learn when notifications are removed and why.
+     *
+     *
      * This might occur because the user has dismissed the notification using system UI (or another
      * notification listener) or because the app has withdrawn the notification.
      *
@@ -74,44 +91,67 @@ class NotificationListener : NotificationListenerService() {
      * @param sbn A data structure encapsulating at least the original information (tag and id)
      * and source (package name) used to post the [android.app.Notification] that
      * was just removed.
+     * @param rankingMap The current ranking map that can be used to retrieve ranking information
+     * for active notifications.
+     * @param reason see [.REASON_LISTENER_CANCEL], etc.
      */
-    override fun onNotificationRemoved(sbn: StatusBarNotification?) {
-        super.onNotificationRemoved(sbn)
-        Log.d("NOTIFICATION_LISTENER", "NOTIFICATION REMOVED")
+    override fun onNotificationRemoved(sbn: StatusBarNotification?, rankingMap: RankingMap?, reason: Int) {
+        super.onNotificationRemoved(sbn, rankingMap, reason)
+        Log.d("NOTIFICATION_LISTENER", "NOTIFICATION REMOVED (REASON: $reason)")
+
+        if (sbn != null) {
+            val notification = analyzeNotification(sbn)
+
+            // Check if reason notification removed is because app cancel
+            // and notification category is message
+            // and the app is not this
+            // then create a new notification with removed notification data
+            if (reason == REASON_APP_CANCEL || reason == REASON_APP_CANCEL_ALL) {
+                if (notification.category == Notification.CATEGORY_MESSAGE) {
+                    val notificationTitle = getString(R.string.alert_msg_deleted)
+                    createNotification("$notificationTitle: ${notification.title}", notification.text)
+                }
+            }
+        }
     }
 
-    private fun recordStatusBarNotification (sbn: StatusBarNotification) {
+    private fun analyzeNotification(sbn: StatusBarNotification): MyNotification {
         Log.d("SBN", sbn.toString())
-        // TODO: create a new notification of the notifications those are removed without user interaction
+
         val packageName = sbn.packageName
         val notification = sbn.notification
-
-        val notificationWhen = SimpleDateFormat("dd/MM/yyyy hh:mm", Locale.getDefault()).format(notification?.let { Date(it.`when`) })
+        // notification variables
+        val formattedWhen = SimpleDateFormat("dd/MM/yyyy hh:mm", Locale.getDefault()).format(Date(notification.`when`))
+        val notificationWhen = formattedWhen
         val notificationChannel = notification?.channelId.toString()
         val notificationCategory = notification?.category.toString()
-        val extras = notification?.extras
+        val extras = notification.extras
+        // extras variables
+        val title = extras.get("android.title").toString()
+        val text = extras.get("android.text").toString()
+        val subText = extras.get("android.subText").toString()
+        val textLines = extras.get("android.textLines").toString()
+        var notificationText = ""
 
-        val title = extras?.getString("android.title").toString()
-        val text = extras?.getString("android.text").toString()
-        val subtext = extras?.getString("android.subText").toString()
-        val textLines = extras?.getCharSequenceArrayList("android.textLines").toString()
+        if (text != "null")
+            notificationText += text
+        if (subText != "null")
+            notificationText += subText
+        if (textLines != "null")
+            notificationText += textLines
 
-        Log.d("PACKAGE_NAME", packageName)
         Log.d("NOTIFICATION", notification.toString())
+        Log.d("PACKAGE_NAME", packageName)
         Log.d("NOTIFICATION_WHEN", notificationWhen)
         Log.d("NOTIFICATION_CHANNEL", notificationChannel)
         Log.d("NOTIFICATION_CATEGORY", notificationCategory)
-
-        Log.d("EXTRAS",extras.toString())
+        Log.d("EXTRAS", extras.toString())
         Log.d("EXTRAS_TITLE", title)
         Log.d("EXTRAS_TEXT", text)
-        Log.d("EXTRAS_SUBTEXT", subtext)
+        Log.d("EXTRAS_SUBTEXT", subText)
         Log.d("EXTRAS_TEXT_LINES", textLines)
 
-        val notificationText = if (sbn.isGroup) textLines else text
-
-        // Insert into DB
-        val notificationDB = MyNotification(
+        return MyNotification(
             packageName,
             notificationWhen,
             notificationChannel,
@@ -119,6 +159,28 @@ class NotificationListener : NotificationListenerService() {
             title,
             notificationText
         )
-        appDatabase.notificationDAO().insertNotification(notificationDB)
+    }
+
+    private fun createNotificationChannel() {
+        val notificationChannelName = "CHANNEL_NAME_NOTILOG"
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val notificationChannel = NotificationChannel(notificationChannelID, notificationChannelName, importance)
+        // Register the channel with the system
+        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(notificationChannel)
+    }
+
+    private fun createNotification (title: String, text: String) {
+        val notification = NotificationCompat.Builder(this, notificationChannelID)
+            .setContentTitle(title)
+            .setContentText(text)
+            .setPriority(NotificationCompat.PRIORITY_MAX)
+            .setCategory(NotificationCompat.CATEGORY_SERVICE)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setShowWhen(true)
+            .setAutoCancel(true)
+            .build()
+        notificationManager.notify(notificationID, notification)
+        notificationID++
     }
 }
