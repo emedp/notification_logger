@@ -1,6 +1,9 @@
 package emedp.notificationlogger
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -12,6 +15,7 @@ import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -25,9 +29,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var listApps: List<String>
     private lateinit var notificationAdapter: NotificationAdapter
     private lateinit var tvTotal: TextView
+
+    private lateinit var notificationManager: NotificationManager
+    private val notificationTestChannelID = "CHANNEL_ID_TEST"
+    private val notificationTestID = 9999
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Register the channel with the system
+        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(NotificationChannel(notificationTestChannelID, "CHANNEL_TEST", NotificationManager.IMPORTANCE_DEFAULT))
 
         // UI
         tvTotal = findViewById(R.id.tv_total)
@@ -71,6 +83,14 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.menu_open_setting -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
+                true
+            }
+            R.id.menu_test_notify -> {
+                testNotifyNotification()
+                true
+            }
+            R.id.menu_test_cancel -> {
+                testCancelNotification()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -146,5 +166,22 @@ class MainActivity : AppCompatActivity() {
             .setNeutralButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
             .setPositiveButton(getString(R.string.delete_all)) { _, _ -> clearUI() }
             .show()
+    }
+
+    private fun testNotifyNotification () {
+        notificationManager.notify(notificationTestID,
+            NotificationCompat.Builder(this, notificationTestChannelID)
+                .setContentTitle("NOTIFICATION TEST")
+                .setContentText("CATEGORY MESSAGE")
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setShowWhen(true)
+                .setAutoCancel(true)
+                .build())
+    }
+
+    private fun testCancelNotification () {
+        notificationManager.cancel(notificationTestID)
     }
 }

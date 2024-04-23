@@ -17,4 +17,21 @@
         app:iconTint="@color/white"
         app:showAsAction="ifRoom"
         android:title="@string/title_activity_settings" />
+
+    <item
+        android:id="@+id/menu_test_notify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/baseline_settings_24"
+        app:iconTint="@color/white"
+        app:showAsAction="withText"
+        android:title="Notify Test" />
+    <item
+        android:id="@+id/menu_test_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/baseline_settings_24"
+        app:iconTint="@color/white"
+        app:showAsAction="withText"
+        android:title="Cancel Test" />
 </menu>
