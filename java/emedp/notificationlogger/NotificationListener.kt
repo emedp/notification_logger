@@ -134,9 +134,9 @@ class NotificationListener : NotificationListenerService() {
         var notificationText = ""
 
         if (text != "null")
-            notificationText += text
+            notificationText += text + "\n"
         if (subText != "null")
-            notificationText += subText
+            notificationText += subText + "\n"
         if (textLines != "null")
             notificationText += textLines
 

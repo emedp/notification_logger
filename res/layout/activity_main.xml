@@ -33,6 +33,7 @@
                 android:id="@+id/tv_total"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="end"
                 android:textAlignment="textEnd"
                 android:textSize="24sp"
                 android:textStyle="bold"

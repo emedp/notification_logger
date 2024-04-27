@@ -63,10 +63,14 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = notificationAdapter
 
-        refreshUI()
         requestAppPermissions()
 
         // TODO: launch tutorial when its the first time app opened
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshUI()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
