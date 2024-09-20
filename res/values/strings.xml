@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Notilog</string>
+    <string name="app_name" translatable="false">LogNotifs</string>
     <string name="service_name">Notification Listener Service</string>
     <string name="connected">Connected</string>
     <string name="disconnected">Disconnected</string>
@@ -19,7 +19,7 @@
     <string name="filter_app">Filter by application</string>
     <string name="total_notifications">Total notifications</string>
     <!-- notifications -->
-    <string name="alert_msg_deleted">Message deleted by</string>
+    <string name="alert_msg_deleted">Message deleted!</string>
     <!-- Preferences -->
     <string name="title_activity_settings">Settings</string>
     <string name="settings_explanation">Check that the following settings are granted so that the app can function normally as expected.</string>

@@ -62,15 +62,7 @@ class NotificationListener : NotificationListenerService() {
      */
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         super.onNotificationPosted(sbn)
-        Log.d("NOTIFICATION_LISTENER", "NOTIFICATION POSTED")
-        if (sbn != null) {
-            val notification = analyzeNotification(sbn)
-
-            if (notification.appName != "emedpware.notificationlogger") {
-                // Insert into DB
-                appDatabase.notificationDAO().insertNotification(notification)
-            }
-        }
+        Log.d("NOTIFICATION_POSTED", sbn.toString())
     }
 
     /**
@@ -97,21 +89,55 @@ class NotificationListener : NotificationListenerService() {
      */
     override fun onNotificationRemoved(sbn: StatusBarNotification?, rankingMap: RankingMap?, reason: Int) {
         super.onNotificationRemoved(sbn, rankingMap, reason)
-        Log.d("NOTIFICATION_LISTENER", "NOTIFICATION REMOVED (REASON: $reason)")
+        val reasonText = reasonToString(reason)
+        Log.d("NOTIFICATION_REMOVED_REASON", reasonText)
 
         if (sbn != null) {
             val notification = analyzeNotification(sbn)
 
-            // Check if reason notification removed is because app cancel
-            // and notification category is message
-            // and the app is not this
-            // then create a new notification with removed notification data
-            if (reason == REASON_APP_CANCEL || reason == REASON_APP_CANCEL_ALL) {
-                if (notification.category == Notification.CATEGORY_MESSAGE) {
-                    val notificationTitle = getString(R.string.alert_msg_deleted)
-                    createNotification("$notificationTitle: ${notification.title}", notification.text)
+            if (notification.appName != this.application.packageName) {
+                // Insert into DB
+                appDatabase.notificationDAO().insertNotification(notification)
+
+                // ALERT USER WITH NOTIFICATION CODE BLOCK
+                // category is MSG or null to be secure
+                // reason of the notification removed should be app cancel or cancel all because try to manage remove notification of deleted message
+                if (notification.category == null || notification.category == Notification.CATEGORY_MESSAGE) {
+                    if (reason == REASON_APP_CANCEL || reason == REASON_APP_CANCEL_ALL) {
+                        createNotification(
+                            "${getString(R.string.alert_msg_deleted)} (${notification.title})",
+                            "${notification.text}\nReason: $reasonText")
+                    }
                 }
             }
+        }
+    }
+
+    private fun reasonToString (reason: Int): String {
+        return when (reason) {
+            REASON_APP_CANCEL -> "REASON_APP_CANCEL"
+            REASON_APP_CANCEL_ALL -> "REASON_APP_CANCEL_ALL"
+            REASON_ASSISTANT_CANCEL -> "REASON_ASSISTANT_CANCEL"
+            REASON_CANCEL -> "REASON_CANCEL"
+            REASON_CANCEL_ALL -> "REASON_CANCEL_ALL"
+            REASON_CLICK -> "REASON_CLICK"
+            REASON_CHANNEL_BANNED -> "REASON_CHANNEL_BANNED"
+            REASON_CHANNEL_REMOVED -> "REASON_CHANNEL_REMOVED"
+            REASON_ERROR -> "REASON_ERROR"
+            REASON_GROUP_OPTIMIZATION -> "REASON_GROUP_OPTIMIZATION"
+            REASON_GROUP_SUMMARY_CANCELED -> "REASON_GROUP_SUMMARY_CANCELED"
+            REASON_LISTENER_CANCEL -> "REASON_LISTENER_CANCEL"
+            REASON_LISTENER_CANCEL_ALL -> "REASON_LISTENER_CANCEL_ALL"
+            REASON_LOCKDOWN -> "REASON_LOCKDOWN"
+            REASON_PACKAGE_BANNED -> "REASON_PACKAGE_BANNED"
+            REASON_PACKAGE_CHANGED -> "REASON_PACKAGE_CHANGED"
+            REASON_PACKAGE_SUSPENDED -> "REASON_PACKAGE_SUSPENDED"
+            REASON_PROFILE_TURNED_OFF -> "REASON_PROFILE_TURNED_OFF"
+            REASON_SNOOZED -> "REASON_SNOOZED"
+            REASON_TIMEOUT -> "REASON_TIMEOUT"
+            REASON_UNAUTOBUNDLED -> "REASON_UNAUTOBUNDLED"
+            REASON_USER_STOPPED -> "REASON_USER_STOPPED"
+            else -> "REASON CODE: $reason"
         }
     }
 
