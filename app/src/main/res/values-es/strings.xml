@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="service_name">Servicio de escucha de notificaciones</string>
+    <string name="connected">Conectado</string>
+    <string name="disconnected">Desconectado</string>
+    <string name="cancel">Cancelar</string>
+    <string name="apply">Aplicar</string>
+    <string name="clear">Limpiar</string>
+    <string name="category">Categoría</string>
+    <string name="channel">Canal</string>
+    <string name="delete_all">Borrar todo</string>
+    <string name="delete_all_desc">¿Estás seguro de borrar todos los registros de notificaciones? Esta acción es permanente.</string>
+    <string name="refresh">Refrescar</string>
+    <string name="refreshed">Refrescado</string>
+    <string name="filter">Filtro</string>
+    <string name="filter_app">Filtrar por aplicación</string>
+    <string name="total_notifications">Total notificaciones</string>
+    <string name="alert_msg_deleted">¡Mensaje borrado!</string>
+    <string name="title_activity_settings">Opciones</string>
+    <string name="settings_explanation">Comprueba que las siguientes opciones se han concedido para que así la app pueda funcionar con normalidad a lo esperado.</string>
+    <string name="setting_lock_app">Fijar aplicación</string>
+    <string name="setting_desc_lock_app">Si puedes, es recomendable fijar la aplicación en la pantalla de aplicaciones recientes para evitar que la app se cierre por acidente.</string>
+    <string name="setting_notification_listener">Escucha de notificaciones</string>
+    <string name="setting_desc_notification_listener">Para que la app funcione, necesita tu permiso para leer tus notificaciones.</string>
+    <string name="open_setting_notification_listener">Abrir ajuste de escucha de notificaciones</string>
+    <string name="setting_battery_optimization">Optimización de batería</string>
+    <string name="setting_desc_battery_optimization">Para que la aplicación sea capaz de escuchar de manera continua y prevenir de suspenderse. Otorga a esta aplicación el nivel de mayor privilegio en los ajustes de optimización de batería</string>
+    <string name="open_setting_battery_optimization">Abrir ajuste de Optimización de batería</string>
+    <string name="setting_autostart">Auto inicio en segundo plano</string>
+    <string name="setting_desc_autostart">Abre tus ajustes, busca la opción de auto inicio y añade esta aplicación a la lista de permitidos.</string>
+    <string name="open_settings">Abrir ajustes</string>
+    <string name="setting_app_settings_details">Ajustes de detalles de la aplicación</string>
+    <string name="setting_desc_app_settings_details">Comprueba en los ajustes detallados de la aplicación si puedes otorgar privilegios especiales para que la app pueda trabajar en segundo plano.</string>
+    <string name="open_setting_app_details">Abrir ajustes detallados de la app</string>
+    <string name="switch_deleted_notification">Aviso cuando una notificación se borra</string>
+</resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_delete_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/baseline_delete_24"
+        app:iconTint="@color/white"
+        app:showAsAction="ifRoom"
+        android:title="@string/delete_all" />
+    <item
+        android:id="@+id/menu_open_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/baseline_settings_24"
+        app:iconTint="@color/white"
+        app:showAsAction="ifRoom"
+        android:title="@string/title_activity_settings" />
+
+    <item
+        android:id="@+id/menu_test_notify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/baseline_settings_24"
+        app:iconTint="@color/white"
+        app:showAsAction="withText"
+        android:title="Notify Test" />
+    <item
+        android:id="@+id/menu_test_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/baseline_settings_24"
+        app:iconTint="@color/white"
+        app:showAsAction="withText"
+        android:title="Cancel Test" />
+</menu>
